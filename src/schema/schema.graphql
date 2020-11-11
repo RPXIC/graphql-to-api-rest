@@ -1,0 +1,133 @@
+type Query {
+    """Lista de las carreras de formula 1. De 1950 a 2019."""
+  seasonList: [Season!]!
+    """
+    Obtenemos la información de las carreras seleccionadas por año. 
+    Solo existen las temporadas desde 1950 a 2019.
+    """
+  racesByYear(year: String!): [Race!]!
+    """Carrera seleccionada por numero de año y carrera."""
+  raceSelect(year: String!, round: Int!): Race
+    """
+    Lista de los pilotos de la F1 de toda la historia.
+    Tenemos dos opciones:
+    - Obtenemos todos los pilotos.
+    - Hacemos uso de la paginación y podemos limitar el número de resultados.
+    """
+  historyDrivers(pageElements: Int, page: Int): [Driver!]!
+    """
+    Obtenemos la información de los pilotos seleccionados por año. 
+    Solo existen las temporadas desde 1950 a 2019.
+    """
+  driversByYear(year: String!): [Driver!]!
+    """
+    Obtenemos la información de los pilotos seleccionados por año y número de carrera. 
+    Solo existen las temporadas desde 1950 a 2019.
+    """
+  driversByYearAndRound(year: String!, round: Int!): [Driver!]!
+    """Obtenemos la información del piloto mediante 'id'"""
+  driverSelect(id: String!): Driver
+    """Clasificación final de una temporada"""
+  seasonPilotsRanking(year: String!): [DriverStanding]!
+    """
+    Lista de los circuitos.
+    Tenemos dos opciones:
+    - Obtenemos todos los circuitos.
+    - Hacemos uso de la paginación y podemos limitar el número de resultados.
+    """
+  historyCircuits(pageElements: Int, page: Int): [Circuit!]!
+    """Circuito seleccionado"""
+  circuitSelect(id: String!): Circuit
+}
+
+  """Información de la temporada"""
+type Season {
+    """Año de la temporada"""
+  year: String!
+    """Información en Wikipedia"""
+  url: String!
+    """Información en Wikipedia adaptada a dispositivos moviles"""
+  urlMobile: String!
+}
+
+  """Información de la carrera"""
+type Race {
+    """Año de la temporada"""
+  season: String!
+    """Numero de la carrera"""
+  round: String!
+    """Información en Wikipedia"""
+  url: String!
+    """Información en Wikipedia adaptada a dispositivos moviles"""
+  urlMobile: String!
+    """Nombre de la carrera"""
+  name: String!
+  circuit: Circuit!
+    """Fecha de la carrera"""
+  date: String!
+    """Mejor tiempo de la carrera"""
+  time: String
+}
+
+  """Información del circuito"""
+type Circuit {
+    """Identificador del circuito"""
+  id: String!
+    """Información del circuito en Wikipedia"""
+  url: String!
+    """Información del circuito en Wikipedia adaptada a dispositivos móviles"""
+  urlMobile: String!
+    """Nombre del circuito"""
+  name: String!
+    """Ubicación del circuito"""
+  location: Location!
+}
+
+  """Información de la ubicación del circuito"""
+type Location {
+    """Latitud"""
+  lat: String!
+    """Longitud"""
+  lng: String!
+    """Localidad"""
+  locality: String!
+    """País"""
+  country: String!
+}
+
+  """Información del piloto"""
+type Driver {
+    """Nombre de pila"""
+  id: String!
+    """Información del circuito en Wikipedia"""
+  url: String!
+    """Información del circuito en Wikipedia adaptada a dispositivos móviles"""
+  urlMobile: String!
+    """Nombre del piloto"""
+  name: String!
+    """Fecha de nacimiento"""
+  dateOfBirth: String!
+    """Nacionalidad"""
+  nationality: String!
+    """Nick"""
+  code: String
+    """Número de piloto"""
+  permanentNumber: String
+}
+
+type DriverStanding {
+  position: String!
+  positionText: String!
+  points: String!
+  wins: String!
+  driver: Driver!
+  constructors: [Constructor!]!
+}
+
+type Constructor {
+  id: String!
+  url: String!
+  urlMobile: String!
+  name: String!
+  nationality: String!
+}
